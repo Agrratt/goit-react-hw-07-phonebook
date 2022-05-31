@@ -1,16 +1,25 @@
-export const App = () => {
+import { useFetchContactsQuery } from 'redux/contactsApi';
+import { Form } from 'components/Form/Form';
+import { ListContacts } from 'components/ListContacts/ListContacts';
+import { Filter } from 'components/Filter/Filter';
+import { Container } from 'components/App.styled';
+import { Message } from 'components/Message/Message';
+import { Loader } from 'components/Loader/Loader';
+
+export function App() {
+  const { data: contacts, isFetching } = useFetchContactsQuery();
+
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
+    <Container>
+      <h1>Phonebook</h1>
+      <Form />
+
+      <h2>Contacts</h2>
+      <Filter />
+      {isFetching && <Loader/>}
+      {contacts ? <ListContacts /> : <Message message='Contact list is empty'/> }
+      
+    </Container>
+    
   );
 };
